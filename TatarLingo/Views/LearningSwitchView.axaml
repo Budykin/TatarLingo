@@ -1,0 +1,185 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:TatarLingo.ViewModels"
+             x:Class="TatarLingo.Views.LearningSwitchView"
+             x:DataType="vm:LearningSwitchViewModel"
+             Background="#FCFCFC">
+             
+    <UserControl.Styles>
+        <Style Selector="Border">
+            <Setter Property="Width" Value="114"/>
+            <Setter Property="Height" Value="114"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="#E30016"/>
+            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="Padding" Value="2"/>
+        </Style>
+        
+        <Style Selector="Button.Back">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="Button.Back:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="LightGray"/>
+        </Style>
+        
+        <Style Selector="Button.Lectures">
+            <Setter Property="Width" Value="110"/>
+            <Setter Property="Height" Value="110"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="Padding" Value="-2"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style Selector="Button.Lectures:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+    </UserControl.Styles>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Кнопка Назад -->
+        <Button
+                Classes="Back"
+                Command="{Binding NavigateBackCommand}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="10,10,0,0"
+                Padding="10,5">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <Image Source="avares://TatarLingo/Assets/LearningSwitchIcons/LogOut.png"
+                       Width="20" Height="20"
+                       Margin="0,0,6,0"/>
+            </StackPanel>
+        </Button>
+    
+        <StackPanel Grid.Row="1"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center">
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Border x:Name="Module1Grid" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
+                    <Button 
+                        Classes="Lectures"
+                        Command="{Binding SelectTopicCommand}"
+                        CommandParameter="{Binding AvailableTopics[0]}">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                            <Image Source="avares://TatarLingo/Assets/LearningSwitchIcons/Alphabet.png"
+                                   Stretch="Uniform"
+                                   Width="32" Height="40"
+                                   VerticalAlignment="Top"/>
+                            <TextBlock Text="Алфавит и произношение"
+                                       TextWrapping="Wrap" TextAlignment="Center"
+                                       VerticalAlignment="Bottom"/>
+                        </StackPanel>
+                    </Button>
+                </Border>
+                <Border x:Name="Module2Grid" Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="2"
+                        Margin="52,0">
+                    <Button 
+                        Classes="Lectures"
+                        Command="{Binding SelectTopicCommand}"
+                        CommandParameter="{Binding AvailableTopics[1]}">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                            <Image Source="avares://TatarLingo/Assets/LearningSwitchIcons/Frasal.png"
+                                   Stretch="Uniform"
+                                   Width="32" Height="40"
+                                   VerticalAlignment="Top"></Image>
+                            <TextBlock Text="Простые фразы и приветствия"
+                                       TextWrapping="Wrap" TextAlignment="Center"
+                                       VerticalAlignment="Bottom"></TextBlock>
+                        </StackPanel>
+                    </Button>    
+                </Border>
+                <Border x:Name="Module3Grid" Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Left">
+                    <Button 
+                        Classes="Lectures"
+                        Command="{Binding SelectTopicCommand}"
+                        CommandParameter="{Binding AvailableTopics[2]}">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                            <Image Source="avares://TatarLingo/Assets/LearningSwitchIcons/Numbers.png"
+                                   Stretch="Uniform"
+                                   Width="45" Height="50"
+                                   VerticalAlignment="Top"></Image>
+                            <TextBlock Text="Числа и счет"
+                                       TextWrapping="Wrap" TextAlignment="Center"
+                                       VerticalAlignment="Bottom"></TextBlock>
+                        </StackPanel>
+                    </Button>    
+                </Border>
+                <Border x:Name="Module4Grid" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2"
+                        Margin="0,31,0,0">
+                    <Button 
+                        Classes="Lectures"
+                        Command="{Binding SelectTopicCommand}"
+                        CommandParameter="{Binding AvailableTopics[3]}">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                            <Image Source="avares://TatarLingo/Assets/LearningSwitchIcons/Family.png"
+                                   Stretch="Uniform"
+                                   Width="32" Height="40"
+                                   VerticalAlignment="Top"></Image>
+                            <TextBlock Text="Семья и люди"
+                                       TextWrapping="Wrap" TextAlignment="Center"
+                                       VerticalAlignment="Bottom"></TextBlock>
+                        </StackPanel>
+                    </Button>    
+                </Border>
+                <Border x:Name="Module5Grid" Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="2"
+                        Margin="0,32,0,0">
+                    <Button 
+                        Classes="Lectures"
+                        Command="{Binding SelectTopicCommand}"
+                        CommandParameter="{Binding AvailableTopics[4]}">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                            <Image Source="avares://TatarLingo/Assets/LearningSwitchIcons/Food.png"
+                                   Stretch="Uniform"
+                                   Width="32" Height="40"
+                                   VerticalAlignment="Top"></Image>
+                            <TextBlock Text="Еда и покупки"
+                                       TextWrapping="Wrap" TextAlignment="Center"
+                                       VerticalAlignment="Bottom"></TextBlock>
+                        </StackPanel>
+                    </Button>    
+                </Border>
+                <Border x:Name="FinalTestGrid" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2"
+                        Margin="0,32,0,0">
+                    <Button 
+                        Classes="Lectures"
+                        Command="{Binding NavigateToFinalTestCommand}">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                            <Image Source="avares://TatarLingo/Assets/LearningSwitchIcons/Testing.png"
+                                   Stretch="Uniform"
+                                   Width="32" Height="40"
+                                   VerticalAlignment="Top"></Image>
+                            <TextBlock Text="Итоговый тест"
+                                       TextWrapping="Wrap" TextAlignment="Center"
+                                       VerticalAlignment="Bottom"></TextBlock>
+                        </StackPanel>
+                    </Button>    
+                </Border>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>

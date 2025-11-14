@@ -1,0 +1,84 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:TatarLingo.ViewModels"
+             x:Class="TatarLingo.Views.RegisterView"
+             x:DataType="vm:RegisterViewModel">
+
+    <UserControl.Styles>
+        <Style Selector="TextBox">
+            <Setter Property="Width" Value="320"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Background" Value="#DCDCDC"/>
+            <Setter Property="CornerRadius" Value="15"/>
+        </Style>
+        <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+            <Setter Property="BorderBrush" Value="#009035"/>
+            <Setter Property="Background" Value="#FCFCFC"/>
+        </Style>
+        <Style Selector="Button">
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Background" Value="#009035"/>
+            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="Button:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#009035"/>
+            <Setter Property="Foreground" Value="LightGray"/>
+        </Style>
+    </UserControl.Styles>
+    
+    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            
+            <Image Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                   Source="avares://TatarLingo/Assets/logo.png"
+                   HorizontalAlignment="Center" Margin="0,0,0,-15"
+                   Width="319" Height="125" Stretch="Uniform"/>
+            <TextBox x:Name="EmailTextBox" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" 
+                     Watermark="Email" Text="{Binding Email}"
+                     BorderBrush="{Binding EmailBorderColor}"
+                     BorderThickness="{Binding EmailBorderThickness}"/>
+            <TextBox x:Name="UsernameTextBox" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,15,0,0"
+                     Watermark="Имя пользователя" Text="{Binding Username}"
+                     BorderBrush="{Binding UsernameBorderColor}"
+                     BorderThickness="{Binding UsernameBorderThickness}"/>
+            <TextBox x:Name="Password1TextBox" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                     Margin="0,15"
+                     Watermark="Пароль" Text="{Binding Password1}" PasswordChar="*" 
+                     BorderBrush="{Binding Password1BorderColor}"
+                     BorderThickness="{Binding Password1BorderThickness}"/>
+            <TextBox x:Name="Password2TextBox" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
+                     Margin="0,0,0,15"
+                     Watermark="Повторите пароль" Text="{Binding Password2}" PasswordChar="*"
+                     BorderBrush="{Binding Password2BorderColor}"
+                     BorderThickness="{Binding Password2BorderThickness}"/>
+            <Button Grid.Row="5" Grid.Column="0"
+                    Margin="0,0,0,0"
+                    HorizontalAlignment="Left"
+                    Content="Вход"
+                    Background="#DCDCDC"
+                    Foreground="Gray"
+                    Command="{Binding GoToLoginCommand}"/>
+            <Button Grid.Row="5" Grid.Column="1"
+                    Margin="0,0,0,0"
+                    Width="170"
+                    HorizontalAlignment="Right"
+                    Content="Зарегистрироваться"
+                    Command="{Binding RegistrateCommand}"/>
+        </Grid>
+    </StackPanel>
+</UserControl>

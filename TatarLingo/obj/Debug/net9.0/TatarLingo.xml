@@ -1,0 +1,1904 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>TatarLingo</name>
+    </assembly>
+    <members>
+        <member name="T:TatarLingo.Models.AuthService">
+            <summary>
+            Сервис аутентификации и работы с базой данных TatarLingo.
+            </summary>
+        </member>
+        <member name="M:TatarLingo.Models.AuthService.CheckCredentials(System.String,System.String)">
+            <summary>
+            Проверяет правильность введённых логина и пароля.
+            </summary>
+            <param name="username">Имя пользователя.</param>
+            <param name="password">Пароль.</param>
+            <returns>True, если пользователь найден и данные корректны; иначе — false.</returns>
+        </member>
+        <member name="M:TatarLingo.Models.AuthService.GetWordPairs(System.String)">
+            <summary>
+            Получает пары слов (например, для задания "Соедини пары") из указанной таблицы.
+            </summary>
+            <param name="table">Имя таблицы в базе данных.</param>
+            <returns>Список пар слов.</returns>
+        </member>
+        <member name="M:TatarLingo.Models.AuthService.RegisterUser(System.String,System.String,System.String)">
+            <summary>
+            Регистрирует нового пользователя.
+            </summary>
+            <param name="username">Имя пользователя.</param>
+            <param name="password">Пароль.</param>
+            <param name="email">Адрес электронной почты.</param>
+            <returns>True, если регистрация прошла успешно; иначе — false (например, пользователь уже существует).</returns>
+        </member>
+        <member name="M:TatarLingo.Models.AuthService.MarkModuleAsCompleted(System.Int32,System.String)">
+            <summary>
+            Отмечает прохождение модуля пользователем.
+            </summary>
+            <param name="userId">ID пользователя.</param>
+            <param name="moduleId">Идентификатор модуля (например, "alphabet").</param>
+            <returns>True, если модуль отмечен как завершён; иначе — false.</returns>
+        </member>
+        <member name="M:TatarLingo.Models.AuthService.MarkTestAsCompleted(System.Int32,System.Int32,System.String)">
+            <summary>
+            Отмечает прохождение финального теста пользователем.
+            </summary>
+            <param name="userId">ID пользователя.</param>
+            <param name="result">Результат теста.</param>
+            <param name="testDate">Дата прохождения теста.</param>
+            <returns>True, если обновление прошло успешно.</returns>
+        </member>
+        <member name="M:TatarLingo.Models.AuthService.GetImageChoiceData">
+            <summary>
+            Получает список заданий с выбором по изображению.
+            </summary>
+            <returns>Список объектов <see cref="T:TatarLingo.ViewModels.ImageChoiceData"/> с изображениями и словами.</returns>
+        </member>
+        <member name="M:TatarLingo.Models.AuthService.GetFillInBlankData(System.String)">
+            <summary>
+            Получает одно задание с пропущенным словом и вариантами ответа.
+            </summary>
+            <param name="table">Имя таблицы с заданиями.</param>
+            <returns>Объект <see cref="T:TatarLingo.ViewModels.FillInBlankData"/> или null, если запись не найдена.</returns>
+        </member>
+        <member name="M:TatarLingo.Models.AuthService.GetFinalTestTasks">
+            <summary>
+            Формирует финальный тест, объединяя задания разных типов.
+            </summary>
+            <returns>Список заданий для финального теста.</returns>
+        </member>
+        <member name="T:TatarLingo.Models.TaskData">
+            <summary>
+            Класс <c>TaskData</c> представляет задание для теста, содержащее тему, тип и данные.
+            </summary>
+        </member>
+        <member name="P:TatarLingo.Models.TaskData.Id">
+            <summary>
+            Уникальный идентификатор задания.
+            </summary>
+        </member>
+        <member name="P:TatarLingo.Models.TaskData.Topic">
+            <summary>
+            Тема задания (например, "food", "family").
+            </summary>
+        </member>
+        <member name="P:TatarLingo.Models.TaskData.Type">
+            <summary>
+            Тип задания (например, вставка слова, выбор изображения и т.д.).
+            </summary>
+        </member>
+        <member name="P:TatarLingo.Models.TaskData.Payload">
+            <summary>
+            Данные задания (например, MatchingPair, FillInBlankData, список ImageChoiceData).
+            </summary>
+        </member>
+        <member name="T:TatarLingo.Models.TaskType">
+            <summary>
+            Перечисление типов заданий, доступных в приложении.
+            </summary>
+        </member>
+        <member name="F:TatarLingo.Models.TaskType.FillInBlank">
+            <summary>
+            Задание с пропущенным словом.
+            </summary>
+        </member>
+        <member name="F:TatarLingo.Models.TaskType.MatchTerms">
+            <summary>
+            Задание на сопоставление терминов.
+            </summary>
+        </member>
+        <member name="F:TatarLingo.Models.TaskType.ImageChoice">
+            <summary>
+            Задание на выбор правильного слова по изображению.
+            </summary>
+        </member>
+        <member name="T:TatarLingo.Models.Topic">
+            <summary>
+            Класс <c>Topic</c> представляет данные для лекции, содержащее идентификатор, заголовок и имя md-ресурса.
+            </summary>
+        </member>
+        <member name="P:TatarLingo.Models.Topic.Id">
+            <summary>
+            Уникальный идентификатор темы, например "alphabet"
+            </summary>
+        </member>
+        <member name="P:TatarLingo.Models.Topic.Title">
+            <summary>
+            Отображаемое название темы, например "Алфавит и произношение"
+            </summary>
+        </member>
+        <member name="P:TatarLingo.Models.Topic.MarkdownResourceName">
+            <summary>
+            Полное имя внедренного ресурса .md файла для этой темы
+            </summary>
+        </member>
+        <member name="T:TatarLingo.Models.UserSession">
+            <summary>
+            Статический класс для хранения информации о текущем сеансе пользователя.
+            </summary>
+        </member>
+        <member name="P:TatarLingo.Models.UserSession.CurrentUser">
+            <summary>
+            Текущий авторизованный пользователь.
+            </summary>
+        </member>
+        <member name="P:TatarLingo.Models.UserSession.FinalTestTasks">
+            <summary>
+            Список заданий итогового теста.
+            </summary>
+        </member>
+        <member name="P:TatarLingo.Models.UserSession.CurrentTestIndex">
+            <summary>
+            Индекс текущего задания теста.
+            </summary>
+        </member>
+        <member name="P:TatarLingo.Models.UserSession.DoneTasks">
+            <summary>
+            Массив флагов, указывающих на выполненные задания теста.
+            </summary>
+        </member>
+        <member name="M:TatarLingo.Models.UserSession.InitializeFinalTest(System.Collections.Generic.List{TatarLingo.Models.TaskData})">
+            <summary>
+            Инициализирует итоговый тест списком заданий и сбрасывает индекс.
+            </summary>
+            <param name="tasks">Список заданий для теста.</param>
+        </member>
+        <member name="M:TatarLingo.Models.UserSession.GetNextTestTask">
+            <summary>
+            Возвращает следующее задание теста, если оно доступно.
+            </summary>
+            <returns>Следующее задание или null, если тест завершён.</returns>
+        </member>
+        <member name="M:TatarLingo.Models.UserSession.ExitTest">
+            <summary>
+            Завершает текущий тест и сбрасывает данные.
+            </summary>
+        </member>
+        <member name="T:TatarLingo.Models.User">
+            <summary>
+            Модель пользователя приложения.
+            </summary>
+        </member>
+        <member name="P:TatarLingo.Models.User.Id">
+            <summary>
+            Уникальный идентификатор пользователя.
+            </summary>
+        </member>
+        <member name="P:TatarLingo.Models.User.Username">
+            <summary>
+            Имя пользователя.
+            </summary>
+        </member>
+        <member name="P:TatarLingo.Models.User.Module1Passed">
+            <summary>
+            Пройден ли первый модуль.
+            </summary>
+        </member>
+        <member name="P:TatarLingo.Models.User.Module2Passed">
+            <summary>
+            Пройден ли второй модуль.
+            </summary>
+        </member>
+        <member name="P:TatarLingo.Models.User.Module3Passed">
+            <summary>
+            Пройден ли третий модуль.
+            </summary>
+        </member>
+        <member name="P:TatarLingo.Models.User.Module4Passed">
+            <summary>
+            Пройден ли четвёртый модуль.
+            </summary>
+        </member>
+        <member name="P:TatarLingo.Models.User.Module5Passed">
+            <summary>
+            Пройден ли пятый модуль.
+            </summary>
+        </member>
+        <member name="P:TatarLingo.Models.User.FinalTestPassed">
+            <summary>
+            Пройден ли итоговый тест.
+            </summary>
+        </member>
+        <member name="P:TatarLingo.Models.User.Email">
+            <summary>
+            Email пользователя.
+            </summary>
+        </member>
+        <member name="P:TatarLingo.Models.User.TestResults">
+            <summary>
+            Результаты выполнения заданий теста.
+            </summary>
+        </member>
+        <member name="P:TatarLingo.Models.User.CurrentTopic">
+            <summary>
+            Текущая выбранная тема.
+            </summary>
+        </member>
+        <member name="T:TatarLingo.Models.MatchingPair">
+            <summary>
+            Модель данных для пары слов (слово и его перевод)
+            </summary>
+            <param name="SourceWord">Исходное слово</param>
+            <param name="TargetWord">Перевод слова</param>
+        </member>
+        <member name="M:TatarLingo.Models.MatchingPair.#ctor(System.String,System.String)">
+            <summary>
+            Модель данных для пары слов (слово и его перевод)
+            </summary>
+            <param name="SourceWord">Исходное слово</param>
+            <param name="TargetWord">Перевод слова</param>
+        </member>
+        <member name="P:TatarLingo.Models.MatchingPair.SourceWord">
+            <summary>Исходное слово</summary>
+        </member>
+        <member name="P:TatarLingo.Models.MatchingPair.TargetWord">
+            <summary>Перевод слова</summary>
+        </member>
+        <member name="T:TatarLingo.ViewModels.FillInBlankData">
+            <summary>
+            Модель данных для задания типа "заполни пропуск" (вставь слово).
+            Содержит шаблон предложения, правильный вариант и список неправильных вариантов.
+            </summary>
+            <param name="SentenceTemplate">Шаблон предложения с пропуском</param>
+            <param name="CorrectWord">Правильное слово для вставки</param>
+            <param name="IncorrectOptions">Коллекция неправильных вариантов</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FillInBlankData.#ctor(System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Модель данных для задания типа "заполни пропуск" (вставь слово).
+            Содержит шаблон предложения, правильный вариант и список неправильных вариантов.
+            </summary>
+            <param name="SentenceTemplate">Шаблон предложения с пропуском</param>
+            <param name="CorrectWord">Правильное слово для вставки</param>
+            <param name="IncorrectOptions">Коллекция неправильных вариантов</param>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FillInBlankData.SentenceTemplate">
+            <summary>Шаблон предложения с пропуском</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FillInBlankData.CorrectWord">
+            <summary>Правильное слово для вставки</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FillInBlankData.IncorrectOptions">
+            <summary>Коллекция неправильных вариантов</summary>
+        </member>
+        <member name="T:TatarLingo.ViewModels.FillInBlankOptionViewModel">
+            <summary>
+            ViewModel для отдельного варианта ответа в задании "вставь слово".
+            Отвечает за состояние и поведение одного варианта ответа.
+            </summary>
+            <inheritdoc/>
+            <inheritdoc/>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FillInBlankOptionViewModel._validationState">
+            <summary>
+            Текущее состояние проверки варианта ответа.
+            Может быть: Непроверен, Правильный, Неправильный.
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FillInBlankOptionViewModel._isMatched">
+            <summary>
+            Указывает, совпадает ли текущий вариант с правильным ответом.
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FillInBlankOptionViewModel._isInvalidMatch">
+            <summary>
+            Указывает, был ли вариант выбран ошибочно.
+            </summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FillInBlankOptionViewModel.OptionText">
+            <summary>
+            Текст варианта ответа.
+            </summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FillInBlankOptionViewModel.IsCorrectOption">
+            <summary>
+            Флаг, указывающий является ли этот вариант правильным ответом.
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FillInBlankOptionViewModel._canSelect">
+            <summary>
+            Определяет, можно ли выбрать данный вариант.
+            </summary>
+        </member>
+        <member name="E:TatarLingo.ViewModels.FillInBlankOptionViewModel.OptionSelected">
+            <summary>
+            Событие, возникающее при выборе варианта.
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FillInBlankOptionViewModel.#ctor(System.String,System.Boolean,System.Action{TatarLingo.ViewModels.FillInBlankOptionViewModel})">
+            <summary>
+            Инициализирует новый экземпляр ViewModel варианта ответа.
+            </summary>
+            <param name="optionText">Текст варианта</param>
+            <param name="isCorrect">Является ли вариант правильным</param>
+            <param name="onSelectedCallback">Обратный вызов при выборе</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FillInBlankOptionViewModel.MarkIncorrectTemporarilyAsync">
+            <summary>
+            Временно помечает вариант как неправильный с задержкой в 1 секунду.
+            </summary>
+            <returns>Задача, представляющая асинхронную операцию</returns>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FillInBlankOptionViewModel.SelectOption">
+            <summary>
+            Команда для выбора текущего варианта ответа.
+            Вызывает событие OptionSelected, если выбор разрешен.
+            </summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FillInBlankOptionViewModel.ValidationState">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FillInBlankOptionViewModel._validationState"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FillInBlankOptionViewModel.IsMatched">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FillInBlankOptionViewModel._isMatched"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FillInBlankOptionViewModel.IsInvalidMatch">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FillInBlankOptionViewModel._isInvalidMatch"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FillInBlankOptionViewModel.CanSelect">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FillInBlankOptionViewModel._canSelect"/>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FillInBlankOptionViewModel.OnValidationStateChanged(TatarLingo.ViewModels.ValidationState)">
+            <summary>
+            Обрабатывает изменение состояния проверки варианта.
+            Автоматически обновляет флаги IsMatched и IsInvalidMatch.
+            </summary>
+            <param name="value">Новое состояние проверки</param>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FillInBlankOptionViewModel.selectOptionCommand">
+            <summary>The backing field for <see cref="P:TatarLingo.ViewModels.FillInBlankOptionViewModel.SelectOptionCommand"/>.</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FillInBlankOptionViewModel.SelectOptionCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:TatarLingo.ViewModels.FillInBlankOptionViewModel.SelectOption"/>.</summary>
+        </member>
+        <member name="T:TatarLingo.ViewModels.FillInBlankTaskViewModel">
+            <summary>
+            ViewModel для задания типа "вставь слово".
+            Управляет логикой выполнения задания и взаимодействием с пользователем.
+            </summary>
+            <inheritdoc/>
+            <inheritdoc/>
+            <inheritdoc/>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FillInBlankTaskViewModel._moduleTitle">
+            <summary>
+            Название текущего модуля обучения.
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FillInBlankTaskViewModel._sentenceTemplate">
+            <summary>
+            Шаблон предложения с пропуском для заполнения.
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FillInBlankTaskViewModel._isCompleted">
+            <summary>
+            Флаг, указывающий завершено ли задание.
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FillInBlankTaskViewModel._buttonText">
+            <summary>
+            Текст на кнопке завершения задания.
+            </summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FillInBlankTaskViewModel.Options">
+            <summary>
+            Коллекция вариантов для заполнения пропуска.
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FillInBlankTaskViewModel.#ctor(TatarLingo.ViewModels.FillInBlankData,TatarLingo.ViewModels.MainWindowViewModel)">
+            <summary>
+            Инициализирует новый экземпляр ViewModel задания.
+            </summary>
+            <param name="data">Данные для задания</param>
+            <param name="mainWindowViewModel">Главная ViewModel приложения (опционально)</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FillInBlankTaskViewModel.InitializeOptions(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Инициализирует и перемешивает варианты ответов.
+            </summary>
+            <param name="incorrectOptions">Список неправильных вариантов</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FillInBlankTaskViewModel.OnOptionSelected(TatarLingo.ViewModels.FillInBlankOptionViewModel)">
+            <summary>
+            Обрабатывает выбор варианта пользователем.
+            </summary>
+            <param name="selectedOption">Выбранный вариант</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FillInBlankTaskViewModel.FinishExercise">
+            <summary>
+            Команда завершения упражнения.
+            Помечает модуль как пройденный и сохраняет результат.
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FillInBlankTaskViewModel.NavigateBack">
+            <summary>
+            Команда возврата к предыдущему экрану.
+            </summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FillInBlankTaskViewModel.ModuleTitle">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FillInBlankTaskViewModel._moduleTitle"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FillInBlankTaskViewModel.SentenceTemplate">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FillInBlankTaskViewModel._sentenceTemplate"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FillInBlankTaskViewModel.IsCompleted">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FillInBlankTaskViewModel._isCompleted"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FillInBlankTaskViewModel.ButtonText">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FillInBlankTaskViewModel._buttonText"/>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FillInBlankTaskViewModel.finishExerciseCommand">
+            <summary>The backing field for <see cref="P:TatarLingo.ViewModels.FillInBlankTaskViewModel.FinishExerciseCommand"/>.</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FillInBlankTaskViewModel.FinishExerciseCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:TatarLingo.ViewModels.FillInBlankTaskViewModel.FinishExercise"/>.</summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FillInBlankTaskViewModel.navigateBackCommand">
+            <summary>The backing field for <see cref="P:TatarLingo.ViewModels.FillInBlankTaskViewModel.NavigateBackCommand"/>.</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FillInBlankTaskViewModel.NavigateBackCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:TatarLingo.ViewModels.FillInBlankTaskViewModel.NavigateBack"/>.</summary>
+        </member>
+        <member name="T:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel">
+            <summary>
+            ViewModel для задания типа "заполни пропуск" в финальном тесте
+            </summary>
+            <inheritdoc/>
+            <inheritdoc/>
+            <inheritdoc/>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel._sentenceTemplate">
+            <summary>
+            Шаблон предложения с пропуском для заполнения
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel._isCompleted">
+            <summary>
+            Флаг, указывающий завершено ли задание
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel._isCorrect">
+            <summary>
+            Флаг, указывающий правильно ли выполнено задание
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel._buttonText">
+            <summary>
+            Текст на кнопке действия (Далее/Завершить)
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel._doneTasks">
+            <summary>
+            Массив выполненных заданий пользователя
+            </summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel.Options">
+            <summary>
+            Коллекция вариантов для заполнения пропуска
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel.#ctor(TatarLingo.ViewModels.FillInBlankData,TatarLingo.ViewModels.FinalTestViewModel)">
+            <summary>
+            Конструктор ViewModel задания
+            </summary>
+            <param name="data">Данные для задания</param>
+            <param name="parentTestVm">Родительская ViewModel теста</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel.InitializeOptions(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Инициализирует коллекцию вариантов ответа
+            </summary>
+            <param name="incorrectOptions">Список некорректных вариантов</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel.OnOptionSelected(TatarLingo.ViewModels.FillInBlankOptionViewModel)">
+            <summary>
+            Обработчик выбора варианта ответа
+            </summary>
+            <param name="selectedOption">Выбранный вариант</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel.FinishExercise">
+            <summary>
+            Команда завершения текущего задания
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel.NavigateBack">
+            <summary>
+            Команда возврата из теста
+            </summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel.SentenceTemplate">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel._sentenceTemplate"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel.IsCompleted">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel._isCompleted"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel.IsCorrect">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel._isCorrect"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel.ButtonText">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel._buttonText"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel.DoneTasks">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel._doneTasks"/>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel.finishExerciseCommand">
+            <summary>The backing field for <see cref="P:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel.FinishExerciseCommand"/>.</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel.FinishExerciseCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel.FinishExercise"/>.</summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel.navigateBackCommand">
+            <summary>The backing field for <see cref="P:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel.NavigateBackCommand"/>.</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel.NavigateBackCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:TatarLingo.ViewModels.FinalTestFillInBlankTaskViewModel.NavigateBack"/>.</summary>
+        </member>
+        <member name="T:TatarLingo.ViewModels.FinalTestImageChoiceTaskViewModel">
+            <summary>
+            ViewModel для задания с выбором изображений в финальном тесте.
+            Управляет логикой задания, где пользователь должен сопоставить изображения с правильными словами.
+            </summary>
+            <inheritdoc/>
+            <inheritdoc/>
+            <inheritdoc/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestImageChoiceTaskViewModel.Items">
+            <summary>
+            Коллекция элементов задания с изображениями и вариантами выбора.
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestImageChoiceTaskViewModel._isCompleted">
+            <summary>
+            Флаг, указывающий завершено ли задание.
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestImageChoiceTaskViewModel._isCorrect">
+            <summary>
+            Флаг, указывающий правильно ли выполнено задание.
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestImageChoiceTaskViewModel._buttonText">
+            <summary>
+            Текст на кнопке действия (Далее/Завершить).
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestImageChoiceTaskViewModel._doneTasks">
+            <summary>
+            Массив выполненных заданий пользователя.
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FinalTestImageChoiceTaskViewModel.#ctor(System.Collections.Generic.IEnumerable{TatarLingo.ViewModels.ImageChoiceData},TatarLingo.ViewModels.FinalTestViewModel)">
+            <summary>
+            Инициализирует новый экземпляр ViewModel задания с выбором изображений.
+            </summary>
+            <param name="imageData">Коллекция данных для задания (изображения и правильные ответы)</param>
+            <param name="parentTestVm">Родительская ViewModel финального теста</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FinalTestImageChoiceTaskViewModel.InitializeExercise(System.Collections.Generic.IEnumerable{TatarLingo.ViewModels.ImageChoiceData})">
+            <summary>
+            Инициализирует упражнение, создавая элементы задания на основе переданных данных.
+            </summary>
+            <param name="imageData">Коллекция данных для задания</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FinalTestImageChoiceTaskViewModel.OnItemAnswered(System.Boolean)">
+            <summary>
+            Обрабатывает событие ответа на элемент задания.
+            Обновляет счетчики правильных/неправильных ответов и состояние задания.
+            </summary>
+            <param name="isCorrect">Был ли ответ правильным</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FinalTestImageChoiceTaskViewModel.FinishExercise">
+            <summary>
+            Команда завершения текущего задания.
+            Передает управление родительской ViewModel теста.
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FinalTestImageChoiceTaskViewModel.NavigateBack">
+            <summary>
+            Команда возврата из теста.
+            Передает управление родительской ViewModel теста.
+            </summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestImageChoiceTaskViewModel.IsCompleted">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FinalTestImageChoiceTaskViewModel._isCompleted"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestImageChoiceTaskViewModel.IsCorrect">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FinalTestImageChoiceTaskViewModel._isCorrect"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestImageChoiceTaskViewModel.ButtonText">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FinalTestImageChoiceTaskViewModel._buttonText"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestImageChoiceTaskViewModel.DoneTasks">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FinalTestImageChoiceTaskViewModel._doneTasks"/>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestImageChoiceTaskViewModel.finishExerciseCommand">
+            <summary>The backing field for <see cref="P:TatarLingo.ViewModels.FinalTestImageChoiceTaskViewModel.FinishExerciseCommand"/>.</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestImageChoiceTaskViewModel.FinishExerciseCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:TatarLingo.ViewModels.FinalTestImageChoiceTaskViewModel.FinishExercise"/>.</summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestImageChoiceTaskViewModel.navigateBackCommand">
+            <summary>The backing field for <see cref="P:TatarLingo.ViewModels.FinalTestImageChoiceTaskViewModel.NavigateBackCommand"/>.</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestImageChoiceTaskViewModel.NavigateBackCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:TatarLingo.ViewModels.FinalTestImageChoiceTaskViewModel.NavigateBack"/>.</summary>
+        </member>
+        <member name="T:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel">
+            <summary>
+            ViewModel для задания на сопоставление в финальном тесте.
+            Позволяет пользователю сопоставлять слова из двух колонок.
+            </summary>
+            <inheritdoc/>
+            <inheritdoc/>
+            <inheritdoc/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel.SourceWords">
+            <summary>
+            Коллекция исходных слов для сопоставления (левая колонка).
+            </summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel.TargetWords">
+            <summary>
+            Коллекция целевых слов для сопоставления (правая колонка).
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel._selectedSourceWord">
+            <summary>
+            Выбранное слово в левой колонке.
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel._selectedTargetWord">
+            <summary>
+            Выбранное слово в правой колонке.
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel._correctlyMatchedCount">
+            <summary>
+            Количество правильно сопоставленных пар.
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel._isCompleted">
+            <summary>
+            Флаг, указывающий завершено ли задание.
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel._isCorrect">
+            <summary>
+            Флаг, указывающий правильно ли выполнено задание.
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel._buttonText">
+            <summary>
+            Текст на кнопке действия (Далее/Завершить).
+            </summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel.TotalPairsCount">
+            <summary>
+            Общее количество пар для сопоставления.
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel._doneTasks">
+            <summary>
+            Массив выполненных заданий пользователя.
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel.#ctor(System.Collections.Generic.IEnumerable{TatarLingo.Models.MatchingPair},TatarLingo.ViewModels.FinalTestViewModel)">
+            <summary>
+            Инициализирует новый экземпляр ViewModel задания на сопоставление.
+            </summary>
+            <param name="wordPairs">Коллекция пар слов для сопоставления</param>
+            <param name="parentTestVm">Родительская ViewModel финального теста</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel.InitializeExercise(System.Collections.Generic.IEnumerable{TatarLingo.Models.MatchingPair})">
+            <summary>
+            Инициализирует упражнение, создавая элементы для сопоставления.
+            </summary>
+            <param name="wordPairs">Коллекция пар слов для сопоставления</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel.CheckForMatchAsync">
+            <summary>
+            Проверяет, являются ли выбранные слова правильной парой.
+            Обновляет состояние элементов и счетчики прогресса.
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel.FinishExercise">
+            <summary>
+            Команда завершения текущего задания.
+            Передает управление родительской ViewModel теста.
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel.NavigateBack">
+            <summary>
+            Команда возврата из теста.
+            Передает управление родительской ViewModel теста.
+            </summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel.SelectedSourceWord">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel._selectedSourceWord"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel.SelectedTargetWord">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel._selectedTargetWord"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel.CorrectlyMatchedCount">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel._correctlyMatchedCount"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel.IsCompleted">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel._isCompleted"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel.IsCorrect">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel._isCorrect"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel.ButtonText">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel._buttonText"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel.DoneTasks">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel._doneTasks"/>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel.OnSelectedSourceWordChanged(TatarLingo.ViewModels.MatchItemViewModel)">
+            <summary>
+            Обрабатывает изменение выбранного слова в левой колонке.
+            </summary>
+            <param name="value">Выбранный элемент или null</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel.OnSelectedTargetWordChanged(TatarLingo.ViewModels.MatchItemViewModel)">
+            <summary>
+            Обрабатывает изменение выбранного слова в правой колонке.
+            </summary>
+            <param name="value">Выбранный элемент или null</param>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel.finishExerciseCommand">
+            <summary>The backing field for <see cref="P:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel.FinishExerciseCommand"/>.</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel.FinishExerciseCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel.FinishExercise"/>.</summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel.navigateBackCommand">
+            <summary>The backing field for <see cref="P:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel.NavigateBackCommand"/>.</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel.NavigateBackCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:TatarLingo.ViewModels.FinalTestMatchingTaskViewModel.NavigateBack"/>.</summary>
+        </member>
+        <member name="T:TatarLingo.ViewModels.FinalTestViewModel">
+            <summary>
+            ViewModel для управления финальным тестом приложения TatarLingo.
+            Отвечает за загрузку заданий, навигацию между ними и обработку результатов.
+            </summary>
+            <inheritdoc/>
+            <inheritdoc/>
+            <inheritdoc/>
+            <inheritdoc/>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestViewModel.currentTaskViewModel">
+            <summary>
+            Текущая ViewModel активного задания теста.
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestViewModel.currentTaskNumber">
+            <summary>
+            Номер текущего задания в тесте (начиная с 1).
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestViewModel.isTestFinished">
+            <summary>
+            Флаг, указывающий завершен ли тест.
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestViewModel.resultSummary">
+            <summary>
+            Строка с итоговыми результатами теста.
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FinalTestViewModel.#ctor(TatarLingo.ViewModels.MainWindowViewModel)">
+            <summary>
+            Инициализирует новый экземпляр FinalTestViewModel.
+            </summary>
+            <param name="main">Главная ViewModel приложения</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FinalTestViewModel.Next">
+            <summary>
+            Команда перехода к следующему заданию или завершения теста.
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FinalTestViewModel.LoadNextTask">
+            <summary>
+            Загружает следующее задание теста.
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FinalTestViewModel.SaveCurrentResult">
+            <summary>
+            Сохраняет результат текущего задания.
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FinalTestViewModel.FinishTest">
+            <summary>
+            Завершает тест, подсчитывает результаты и отправляет уведомление.
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FinalTestViewModel.SendEmail(System.Int32)">
+            <summary>
+            Отправляет email с результатами теста на почту пользователя.
+            </summary>
+            <param name="correctCount">Количество правильных ответов</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FinalTestViewModel.ExitTest">
+            <summary>
+            Команда выхода из теста без завершения.
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.FinalTestViewModel.CertainTask(System.Int32)">
+            <summary>
+            Команда перехода к определенному заданию теста.
+            </summary>
+            <param name="testIndex">Индекс задания (начиная с 0)</param>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestViewModel.CurrentTaskViewModel">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FinalTestViewModel.currentTaskViewModel"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestViewModel.CurrentTaskNumber">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FinalTestViewModel.currentTaskNumber"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestViewModel.IsTestFinished">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FinalTestViewModel.isTestFinished"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestViewModel.ResultSummary">
+            <inheritdoc cref="F:TatarLingo.ViewModels.FinalTestViewModel.resultSummary"/>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestViewModel.nextCommand">
+            <summary>The backing field for <see cref="P:TatarLingo.ViewModels.FinalTestViewModel.NextCommand"/>.</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestViewModel.NextCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:TatarLingo.ViewModels.FinalTestViewModel.Next"/>.</summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestViewModel.exitTestCommand">
+            <summary>The backing field for <see cref="P:TatarLingo.ViewModels.FinalTestViewModel.ExitTestCommand"/>.</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestViewModel.ExitTestCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:TatarLingo.ViewModels.FinalTestViewModel.ExitTest"/>.</summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.FinalTestViewModel.certainTaskCommand">
+            <summary>The backing field for <see cref="P:TatarLingo.ViewModels.FinalTestViewModel.CertainTaskCommand"/>.</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.FinalTestViewModel.CertainTaskCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand`1"/> instance wrapping <see cref="M:TatarLingo.ViewModels.FinalTestViewModel.CertainTask(System.Int32)"/>.</summary>
+        </member>
+        <member name="T:TatarLingo.ViewModels.ImageChoiceData">
+            <summary>
+            Модель данных для задания с выбором изображения
+            </summary>
+            <param name="ImagePath">Путь к изображению</param>
+            <param name="CorrectWord">Правильное слово, соответствующее изображению</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.ImageChoiceData.#ctor(System.String,System.String)">
+            <summary>
+            Модель данных для задания с выбором изображения
+            </summary>
+            <param name="ImagePath">Путь к изображению</param>
+            <param name="CorrectWord">Правильное слово, соответствующее изображению</param>
+        </member>
+        <member name="P:TatarLingo.ViewModels.ImageChoiceData.ImagePath">
+            <summary>Путь к изображению</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.ImageChoiceData.CorrectWord">
+            <summary>Правильное слово, соответствующее изображению</summary>
+        </member>
+        <member name="T:TatarLingo.ViewModels.ValidationState">
+            <summary>
+            Состояние проверки ответа
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.ValidationState.Unchecked">
+            <summary>Ответ еще не проверен</summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.ValidationState.Correct">
+            <summary>Ответ верный</summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.ValidationState.Incorrect">
+            <summary>Ответ неверный</summary>
+        </member>
+        <member name="T:TatarLingo.ViewModels.ImageChoiceItemViewModel">
+            <summary>
+            ViewModel для элемента задания с выбором изображения
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="F:TatarLingo.ViewModels.ImageChoiceItemViewModel._validationState">
+            <summary>
+            Текущее состояние проверки ответа
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.ImageChoiceItemViewModel._isMatched">
+            <summary>
+            Флаг, указывающий что ответ верный
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.ImageChoiceItemViewModel._isInvalidMatch">
+            <summary>
+            Флаг, указывающий что ответ неверный
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.ImageChoiceItemViewModel._isAnswered">
+            <summary>
+            Флаг, указывающий что дан ответ
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.ImageChoiceItemViewModel._selectedWord">
+            <summary>
+            Выбранное слово
+            </summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.ImageChoiceItemViewModel.ImagePath">
+            <summary>
+            Изображение для задания
+            </summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.ImageChoiceItemViewModel.CorrectWord">
+            <summary>
+            Правильное слово для этого изображения
+            </summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.ImageChoiceItemViewModel.Options">
+            <summary>
+            Доступные варианты ответов
+            </summary>
+        </member>
+        <member name="E:TatarLingo.ViewModels.ImageChoiceItemViewModel.Answered">
+            <summary>
+            Событие, возникающее при ответе
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.ImageChoiceItemViewModel.#ctor(System.String,System.String,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Конструктор элемента задания
+            </summary>
+            <param name="imagePath">Путь к изображению</param>
+            <param name="correctWord">Правильное слово</param>
+            <param name="allWords">Все возможные варианты ответов</param>
+        </member>
+        <member name="P:TatarLingo.ViewModels.ImageChoiceItemViewModel.ValidationState">
+            <inheritdoc cref="F:TatarLingo.ViewModels.ImageChoiceItemViewModel._validationState"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.ImageChoiceItemViewModel.IsMatched">
+            <inheritdoc cref="F:TatarLingo.ViewModels.ImageChoiceItemViewModel._isMatched"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.ImageChoiceItemViewModel.IsInvalidMatch">
+            <inheritdoc cref="F:TatarLingo.ViewModels.ImageChoiceItemViewModel._isInvalidMatch"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.ImageChoiceItemViewModel.IsAnswered">
+            <inheritdoc cref="F:TatarLingo.ViewModels.ImageChoiceItemViewModel._isAnswered"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.ImageChoiceItemViewModel.SelectedWord">
+            <inheritdoc cref="F:TatarLingo.ViewModels.ImageChoiceItemViewModel._selectedWord"/>
+        </member>
+        <member name="M:TatarLingo.ViewModels.ImageChoiceItemViewModel.OnValidationStateChanged(TatarLingo.ViewModels.ValidationState)">
+            <summary>
+            Обработчик изменения состояния проверки
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.ImageChoiceItemViewModel.OnSelectedWordChanged(System.String)">
+            <summary>
+            Обработчик изменения выбранного слова
+            </summary>
+        </member>
+        <member name="T:TatarLingo.ViewModels.ImageChoiceTaskViewModel">
+            <summary>
+            ViewModel для задания с выбором изображений
+            </summary>
+            <inheritdoc/>
+            <inheritdoc/>
+            <inheritdoc/>
+        </member>
+        <member name="F:TatarLingo.ViewModels.ImageChoiceTaskViewModel._moduleTitle">
+            <summary>
+            Название текущего модуля
+            </summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.ImageChoiceTaskViewModel.Items">
+            <summary>
+            Коллекция элементов задания
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.ImageChoiceTaskViewModel._isCompleted">
+            <summary>
+            Флаг завершения задания
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.ImageChoiceTaskViewModel._buttonText">
+            <summary>
+            Текст кнопки завершения
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.ImageChoiceTaskViewModel.#ctor(System.Collections.Generic.IEnumerable{TatarLingo.ViewModels.ImageChoiceData},TatarLingo.ViewModels.MainWindowViewModel)">
+            <summary>
+            Конструктор ViewModel задания
+            </summary>
+            <param name="imageData">Данные изображений</param>
+            <param name="mainWindowViewModel">Главная ViewModel</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.ImageChoiceTaskViewModel.InitializeExercise(System.Collections.Generic.IEnumerable{TatarLingo.ViewModels.ImageChoiceData})">
+            <summary>
+            Инициализация упражнения
+            </summary>
+            <param name="imageData">Данные изображений</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.ImageChoiceTaskViewModel.OnItemAnswered(System.Boolean)">
+            <summary>
+            Обработчик ответа на элемент задания
+            </summary>
+            <param name="isCorrect">Был ли ответ верным</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.ImageChoiceTaskViewModel.FinishExercise">
+            <summary>
+            Команда завершения упражнения
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.ImageChoiceTaskViewModel.NavigateBack">
+            <summary>
+            Команда возврата назад
+            </summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.ImageChoiceTaskViewModel.ModuleTitle">
+            <inheritdoc cref="F:TatarLingo.ViewModels.ImageChoiceTaskViewModel._moduleTitle"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.ImageChoiceTaskViewModel.IsCompleted">
+            <inheritdoc cref="F:TatarLingo.ViewModels.ImageChoiceTaskViewModel._isCompleted"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.ImageChoiceTaskViewModel.ButtonText">
+            <inheritdoc cref="F:TatarLingo.ViewModels.ImageChoiceTaskViewModel._buttonText"/>
+        </member>
+        <member name="F:TatarLingo.ViewModels.ImageChoiceTaskViewModel.finishExerciseCommand">
+            <summary>The backing field for <see cref="P:TatarLingo.ViewModels.ImageChoiceTaskViewModel.FinishExerciseCommand"/>.</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.ImageChoiceTaskViewModel.FinishExerciseCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:TatarLingo.ViewModels.ImageChoiceTaskViewModel.FinishExercise"/>.</summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.ImageChoiceTaskViewModel.navigateBackCommand">
+            <summary>The backing field for <see cref="P:TatarLingo.ViewModels.ImageChoiceTaskViewModel.NavigateBackCommand"/>.</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.ImageChoiceTaskViewModel.NavigateBackCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:TatarLingo.ViewModels.ImageChoiceTaskViewModel.NavigateBack"/>.</summary>
+        </member>
+        <member name="T:TatarLingo.ViewModels.LearningSwitchViewModel">
+            <summary>
+            ViewModel для экрана выбора тем обучения.
+            Позволяет пользователю выбирать темы для изучения и переходить к финальному тесту.
+            </summary>
+            <inheritdoc/>
+            <inheritdoc/>
+            <inheritdoc/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.LearningSwitchViewModel.wordPairs">
+            <summary>
+            Коллекция пар слов для упражнений на сопоставление.
+            </summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.LearningSwitchViewModel.AvailableTopics">
+            <summary>
+            Коллекция доступных тем для изучения.
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.LearningSwitchViewModel.#ctor(TatarLingo.ViewModels.MainWindowViewModel)">
+            <summary>
+            Инициализирует новый экземпляр LearningSwitchViewModel.
+            </summary>
+            <param name="main">Главная ViewModel приложения</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.LearningSwitchViewModel.SelectTopic(TatarLingo.Models.Topic)">
+            <summary>
+            Команда выбора темы для изучения.
+            Устанавливает выбранную тему как текущую и переходит к лекции.
+            </summary>
+            <param name="selectedTopic">Выбранная тема</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.LearningSwitchViewModel.NavigateBack">
+            <summary>
+            Команда возврата к экрану входа в систему.
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.LearningSwitchViewModel.NavigateToFinalTest">
+            <summary>
+            Команда перехода к финальному тесту.
+            Загружает задания теста и инициализирует тестовую сессию.
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.LearningSwitchViewModel.selectTopicCommand">
+            <summary>The backing field for <see cref="P:TatarLingo.ViewModels.LearningSwitchViewModel.SelectTopicCommand"/>.</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.LearningSwitchViewModel.SelectTopicCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand`1"/> instance wrapping <see cref="M:TatarLingo.ViewModels.LearningSwitchViewModel.SelectTopic(TatarLingo.Models.Topic)"/>.</summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.LearningSwitchViewModel.navigateBackCommand">
+            <summary>The backing field for <see cref="P:TatarLingo.ViewModels.LearningSwitchViewModel.NavigateBackCommand"/>.</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.LearningSwitchViewModel.NavigateBackCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:TatarLingo.ViewModels.LearningSwitchViewModel.NavigateBack"/>.</summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.LearningSwitchViewModel.navigateToFinalTestCommand">
+            <summary>The backing field for <see cref="P:TatarLingo.ViewModels.LearningSwitchViewModel.NavigateToFinalTestCommand"/>.</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.LearningSwitchViewModel.NavigateToFinalTestCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:TatarLingo.ViewModels.LearningSwitchViewModel.NavigateToFinalTest"/>.</summary>
+        </member>
+        <member name="T:TatarLingo.ViewModels.LectureViewModel">
+            <summary>
+            ViewModel для отображения лекционного материала
+            </summary>
+            <inheritdoc/>
+            <inheritdoc/>
+            <inheritdoc/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.LectureViewModel.wordPairs">
+            <summary>
+            Коллекция пар слов для упражнений на сопоставление
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.LectureViewModel.moduleTitle">
+            <summary>
+            Заголовок текущего модуля обучения
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.LectureViewModel.lectureContent">
+            <summary>
+            Содержимое лекции в формате Markdown
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.LectureViewModel.topicID">
+            <summary>
+            Идентификатор текущей темы
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.LectureViewModel.#ctor(TatarLingo.Models.Topic,TatarLingo.ViewModels.MainWindowViewModel)">
+            <summary>
+            Инициализирует новый экземпляр LectureViewModel
+            </summary>
+            <param name="topic">Тема лекции</param>
+            <param name="mainWindowViewModel">Главная ViewModel приложения</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.LectureViewModel.Next">
+            <summary>
+            Команда перехода к упражнениям по текущей теме
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.LectureViewModel.NavigateBack">
+            <summary>
+            Команда возврата к выбору тем
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.LectureViewModel.LoadContentFromEmbeddedResourceAsync(System.String)">
+            <summary>
+            Загружает содержимое лекции из встроенного ресурса
+            </summary>
+            <param name="resourceName">Имя ресурса в сборке</param>
+        </member>
+        <member name="P:TatarLingo.ViewModels.LectureViewModel.ModuleTitle">
+            <inheritdoc cref="F:TatarLingo.ViewModels.LectureViewModel.moduleTitle"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.LectureViewModel.LectureContent">
+            <inheritdoc cref="F:TatarLingo.ViewModels.LectureViewModel.lectureContent"/>
+        </member>
+        <member name="F:TatarLingo.ViewModels.LectureViewModel.nextCommand">
+            <summary>The backing field for <see cref="P:TatarLingo.ViewModels.LectureViewModel.NextCommand"/>.</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.LectureViewModel.NextCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:TatarLingo.ViewModels.LectureViewModel.Next"/>.</summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.LectureViewModel.navigateBackCommand">
+            <summary>The backing field for <see cref="P:TatarLingo.ViewModels.LectureViewModel.NavigateBackCommand"/>.</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.LectureViewModel.NavigateBackCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:TatarLingo.ViewModels.LectureViewModel.NavigateBack"/>.</summary>
+        </member>
+        <member name="T:TatarLingo.ViewModels.LoginViewModel">
+            <summary>
+            ViewModel для экрана входа в систему
+            </summary>
+            <inheritdoc/>
+            <inheritdoc/>
+            <inheritdoc/>
+        </member>
+        <member name="F:TatarLingo.ViewModels.LoginViewModel.username">
+            <summary>
+            Имя пользователя для входа
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.LoginViewModel.password">
+            <summary>
+            Пароль пользователя
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.LoginViewModel.#ctor(TatarLingo.ViewModels.MainWindowViewModel)">
+            <summary>
+            Инициализирует новый экземпляр LoginViewModel
+            </summary>
+            <param name="main">Главная ViewModel приложения</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.LoginViewModel.GoToRegister">
+            <summary>
+            Команда перехода к экрану регистрации
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.LoginViewModel.GoToLearningSwitch">
+            <summary>
+            Команда выполнения входа в систему
+            Проверяет учетные данные и либо переходит к обучению,
+            либо показывает сообщение об ошибке
+            </summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.LoginViewModel.Username">
+            <inheritdoc cref="F:TatarLingo.ViewModels.LoginViewModel.username"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.LoginViewModel.Password">
+            <inheritdoc cref="F:TatarLingo.ViewModels.LoginViewModel.password"/>
+        </member>
+        <member name="F:TatarLingo.ViewModels.LoginViewModel.goToRegisterCommand">
+            <summary>The backing field for <see cref="P:TatarLingo.ViewModels.LoginViewModel.GoToRegisterCommand"/>.</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.LoginViewModel.GoToRegisterCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:TatarLingo.ViewModels.LoginViewModel.GoToRegister"/>.</summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.LoginViewModel.goToLearningSwitchCommand">
+            <summary>The backing field for <see cref="P:TatarLingo.ViewModels.LoginViewModel.GoToLearningSwitchCommand"/>.</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.LoginViewModel.GoToLearningSwitchCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:TatarLingo.ViewModels.LoginViewModel.GoToLearningSwitch"/>.</summary>
+        </member>
+        <member name="T:TatarLingo.ViewModels.MainWindowViewModel">
+            <summary>
+            Главная ViewModel приложения, управляющая навигацией между View
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="F:TatarLingo.ViewModels.MainWindowViewModel.currentView">
+            <summary>
+            Текущее отображаемое View
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.MainWindowViewModel.#ctor">
+            <summary>
+            Инициализирует новый экземпляр MainWindowViewModel
+            </summary>
+            <remarks>
+            По умолчанию устанавливает экран входа в систему как начальный View
+            </remarks>
+        </member>
+        <member name="M:TatarLingo.ViewModels.MainWindowViewModel.NavigateToRegister">
+            <summary>
+            Переход к экрану регистрации нового пользователя
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.MainWindowViewModel.NavigateToLogin">
+            <summary>
+            Возврат к экрану входа в систему
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.MainWindowViewModel.NavigateToLearningSwitch">
+            <summary>
+            Переход к экрану выбора тем обучения
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.MainWindowViewModel.NavigateToLecture(TatarLingo.Models.Topic)">
+            <summary>
+            Переход к экрану лекции по выбранной теме
+            </summary>
+            <param name="topic">Тема лекции</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.MainWindowViewModel.NavigateToTask(System.Collections.Generic.IEnumerable{TatarLingo.Models.MatchingPair})">
+            <summary>
+            Переход к заданию на сопоставление слов
+            </summary>
+            <param name="wordPairs">Коллекция пар слов для сопоставления</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.MainWindowViewModel.NavigateToImageTask(System.Collections.Generic.IEnumerable{TatarLingo.ViewModels.ImageChoiceData})">
+            <summary>
+            Переход к заданию с выбором изображений
+            </summary>
+            <param name="imageData">Данные изображений для задания</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.MainWindowViewModel.NavigateToFillInBlankTask(TatarLingo.ViewModels.FillInBlankData)">
+            <summary>
+            Переход к заданию на заполнение пропусков
+            </summary>
+            <param name="fillInBlankData">Данные для задания</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.MainWindowViewModel.NavigateToFinalTest">
+            <summary>
+            Переход к финальному тесту
+            </summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.MainWindowViewModel.CurrentView">
+            <inheritdoc cref="F:TatarLingo.ViewModels.MainWindowViewModel.currentView"/>
+        </member>
+        <member name="T:TatarLingo.ViewModels.MatchItemViewModel">
+            <summary>
+            ViewModel для элемента сопоставления в упражнении
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.MatchItemViewModel.Id">
+            <summary>
+            Уникальный идентификатор элемента
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.MatchItemViewModel._text">
+            <summary>
+            Текст элемента (слово или перевод)
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.MatchItemViewModel._isMatched">
+            <summary>
+            Флаг, указывающий что элемент уже сопоставлен
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.MatchItemViewModel._isInvalidMatch">
+            <summary>
+            Флаг временной подсветки при неправильном выборе
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.MatchItemViewModel.#ctor(System.Int32,System.String)">
+            <summary>
+            Конструктор элемента сопоставления
+            </summary>
+            <param name="id">Уникальный идентификатор</param>
+            <param name="text">Текст элемента</param>
+        </member>
+        <member name="P:TatarLingo.ViewModels.MatchItemViewModel.Text">
+            <inheritdoc cref="F:TatarLingo.ViewModels.MatchItemViewModel._text"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.MatchItemViewModel.IsMatched">
+            <inheritdoc cref="F:TatarLingo.ViewModels.MatchItemViewModel._isMatched"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.MatchItemViewModel.IsInvalidMatch">
+            <inheritdoc cref="F:TatarLingo.ViewModels.MatchItemViewModel._isInvalidMatch"/>
+        </member>
+        <member name="T:TatarLingo.ViewModels.MatchingTaskViewModel">
+            <summary>
+            ViewModel для упражнения на сопоставление слов
+            </summary>
+            <inheritdoc/>
+            <inheritdoc/>
+            <inheritdoc/>
+        </member>
+        <member name="F:TatarLingo.ViewModels.MatchingTaskViewModel._moduleTitle">
+            <summary>
+            Название текущего модуля
+            </summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.MatchingTaskViewModel.SourceWords">
+            <summary>
+            Коллекция исходных слов (левая колонка)
+            </summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.MatchingTaskViewModel.TargetWords">
+            <summary>
+            Коллекция переводов (правая колонка)
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.MatchingTaskViewModel._selectedSourceWord">
+            <summary>
+            Выбранное слово в левой колонке
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.MatchingTaskViewModel._selectedTargetWord">
+            <summary>
+            Выбранное слово в правой колонке
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.MatchingTaskViewModel._correctlyMatchedCount">
+            <summary>
+            Количество правильно сопоставленных пар
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.MatchingTaskViewModel._isCompleted">
+            <summary>
+            Флаг завершения упражнения
+            </summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.MatchingTaskViewModel._buttonText">
+            <summary>
+            Текст кнопки действия
+            </summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.MatchingTaskViewModel.TotalPairsCount">
+            <summary>
+            Общее количество пар для сопоставления
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.MatchingTaskViewModel.#ctor(System.Collections.Generic.IEnumerable{TatarLingo.Models.MatchingPair},TatarLingo.ViewModels.MainWindowViewModel)">
+            <summary>
+            Конструктор ViewModel упражнения
+            </summary>
+            <param name="wordPairs">Коллекция пар слов</param>
+            <param name="mainWindowViewModel">Главная ViewModel приложения</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.MatchingTaskViewModel.InitializeExercise(System.Collections.Generic.IEnumerable{TatarLingo.Models.MatchingPair})">
+            <summary>
+            Инициализация упражнения
+            </summary>
+            <param name="wordPairs">Коллекция пар слов</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.MatchingTaskViewModel.CheckForMatchAsync">
+            <summary>
+            Проверка соответствия выбранных слов
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.MatchingTaskViewModel.FinishExercise">
+            <summary>
+            Команда завершения упражнения
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.MatchingTaskViewModel.NavigateBack">
+            <summary>
+            Команда возврата к выбору тем
+            </summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.MatchingTaskViewModel.ModuleTitle">
+            <inheritdoc cref="F:TatarLingo.ViewModels.MatchingTaskViewModel._moduleTitle"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.MatchingTaskViewModel.SelectedSourceWord">
+            <inheritdoc cref="F:TatarLingo.ViewModels.MatchingTaskViewModel._selectedSourceWord"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.MatchingTaskViewModel.SelectedTargetWord">
+            <inheritdoc cref="F:TatarLingo.ViewModels.MatchingTaskViewModel._selectedTargetWord"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.MatchingTaskViewModel.CorrectlyMatchedCount">
+            <inheritdoc cref="F:TatarLingo.ViewModels.MatchingTaskViewModel._correctlyMatchedCount"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.MatchingTaskViewModel.IsCompleted">
+            <inheritdoc cref="F:TatarLingo.ViewModels.MatchingTaskViewModel._isCompleted"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.MatchingTaskViewModel.ButtonText">
+            <inheritdoc cref="F:TatarLingo.ViewModels.MatchingTaskViewModel._buttonText"/>
+        </member>
+        <member name="M:TatarLingo.ViewModels.MatchingTaskViewModel.OnSelectedSourceWordChanged(TatarLingo.ViewModels.MatchItemViewModel)">
+            <summary>
+            Обработчик изменения выбранного слова в левой колонке
+            </summary>
+            <param name="value">Выбранный элемент</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.MatchingTaskViewModel.OnSelectedTargetWordChanged(TatarLingo.ViewModels.MatchItemViewModel)">
+            <summary>
+            Обработчик изменения выбранного слова в правой колонке
+            </summary>
+            <param name="value">Выбранный элемент</param>
+        </member>
+        <member name="F:TatarLingo.ViewModels.MatchingTaskViewModel.finishExerciseCommand">
+            <summary>The backing field for <see cref="P:TatarLingo.ViewModels.MatchingTaskViewModel.FinishExerciseCommand"/>.</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.MatchingTaskViewModel.FinishExerciseCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:TatarLingo.ViewModels.MatchingTaskViewModel.FinishExercise"/>.</summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.MatchingTaskViewModel.navigateBackCommand">
+            <summary>The backing field for <see cref="P:TatarLingo.ViewModels.MatchingTaskViewModel.NavigateBackCommand"/>.</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.MatchingTaskViewModel.NavigateBackCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:TatarLingo.ViewModels.MatchingTaskViewModel.NavigateBack"/>.</summary>
+        </member>
+        <member name="T:TatarLingo.ViewModels.RegisterViewModel">
+            <summary>
+            ViewModel для экрана регистрации пользователя
+            </summary>
+            <inheritdoc/>
+            <inheritdoc/>
+            <inheritdoc/>
+        </member>
+        <member name="M:TatarLingo.ViewModels.RegisterViewModel.#ctor(TatarLingo.ViewModels.MainWindowViewModel)">
+            <summary>
+            Конструктор ViewModel регистрации
+            </summary>
+            <param name="main">Главная ViewModel приложения</param>
+        </member>
+        <member name="M:TatarLingo.ViewModels.RegisterViewModel.Registrate">
+            <summary>
+            Команда регистрации нового пользователя
+            </summary>
+        </member>
+        <member name="M:TatarLingo.ViewModels.RegisterViewModel.EmailCheck">
+            <summary>
+            Проверка валидности email
+            </summary>
+            <returns>True если email валиден, иначе False</returns>
+        </member>
+        <member name="M:TatarLingo.ViewModels.RegisterViewModel.PasswordCheck">
+            <summary>
+            Проверка сложности пароля
+            </summary>
+            <returns>True если пароль соответствует требованиям, иначе False</returns>
+        </member>
+        <member name="M:TatarLingo.ViewModels.RegisterViewModel.GoToLogin">
+            <summary>
+            Команда перехода к экрану входа
+            </summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.RegisterViewModel.EmailBorderColor">
+            <inheritdoc cref="F:TatarLingo.ViewModels.RegisterViewModel.emailBorderColor"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.RegisterViewModel.EmailBorderThickness">
+            <inheritdoc cref="F:TatarLingo.ViewModels.RegisterViewModel.emailBorderThickness"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.RegisterViewModel.UsernameBorderColor">
+            <inheritdoc cref="F:TatarLingo.ViewModels.RegisterViewModel.usernameBorderColor"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.RegisterViewModel.UsernameBorderThickness">
+            <inheritdoc cref="F:TatarLingo.ViewModels.RegisterViewModel.usernameBorderThickness"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.RegisterViewModel.Password1BorderColor">
+            <inheritdoc cref="F:TatarLingo.ViewModels.RegisterViewModel.password1BorderColor"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.RegisterViewModel.Password1BorderThickness">
+            <inheritdoc cref="F:TatarLingo.ViewModels.RegisterViewModel.password1BorderThickness"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.RegisterViewModel.Password2BorderColor">
+            <inheritdoc cref="F:TatarLingo.ViewModels.RegisterViewModel.password2BorderColor"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.RegisterViewModel.Password2BorderThickness">
+            <inheritdoc cref="F:TatarLingo.ViewModels.RegisterViewModel.password2BorderThickness"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.RegisterViewModel.Email">
+            <inheritdoc cref="F:TatarLingo.ViewModels.RegisterViewModel.email"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.RegisterViewModel.Username">
+            <inheritdoc cref="F:TatarLingo.ViewModels.RegisterViewModel.username"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.RegisterViewModel.Password1">
+            <inheritdoc cref="F:TatarLingo.ViewModels.RegisterViewModel.password1"/>
+        </member>
+        <member name="P:TatarLingo.ViewModels.RegisterViewModel.Password2">
+            <inheritdoc cref="F:TatarLingo.ViewModels.RegisterViewModel.password2"/>
+        </member>
+        <member name="F:TatarLingo.ViewModels.RegisterViewModel.registrateCommand">
+            <summary>The backing field for <see cref="P:TatarLingo.ViewModels.RegisterViewModel.RegistrateCommand"/>.</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.RegisterViewModel.RegistrateCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:TatarLingo.ViewModels.RegisterViewModel.Registrate"/>.</summary>
+        </member>
+        <member name="F:TatarLingo.ViewModels.RegisterViewModel.goToLoginCommand">
+            <summary>The backing field for <see cref="P:TatarLingo.ViewModels.RegisterViewModel.GoToLoginCommand"/>.</summary>
+        </member>
+        <member name="P:TatarLingo.ViewModels.RegisterViewModel.GoToLoginCommand">
+            <summary>Gets an <see cref="T:CommunityToolkit.Mvvm.Input.IRelayCommand"/> instance wrapping <see cref="M:TatarLingo.ViewModels.RegisterViewModel.GoToLogin"/>.</summary>
+        </member>
+        <member name="M:TatarLingo.Views.FailDialog.InitializeComponent(System.Boolean,System.Boolean)">
+            <summary>
+            Wires up the controls and optionally loads XAML markup and attaches dev tools (if Avalonia.Diagnostics package is referenced).
+            </summary>
+            <param name="loadXaml">Should the XAML be loaded into the component.</param>
+            <param name="attachDevTools">Should the dev tools be attached.</param>
+        </member>
+        <member name="M:TatarLingo.Views.FailLoginDialog.InitializeComponent(System.Boolean,System.Boolean)">
+            <summary>
+            Wires up the controls and optionally loads XAML markup and attaches dev tools (if Avalonia.Diagnostics package is referenced).
+            </summary>
+            <param name="loadXaml">Should the XAML be loaded into the component.</param>
+            <param name="attachDevTools">Should the dev tools be attached.</param>
+        </member>
+        <member name="M:TatarLingo.Views.FillInBlankTaskView.InitializeComponent(System.Boolean)">
+            <summary>
+            Wires up the controls and optionally loads XAML markup and attaches dev tools (if Avalonia.Diagnostics package is referenced).
+            </summary>
+            <param name="loadXaml">Should the XAML be loaded into the component.</param>
+        </member>
+        <member name="M:TatarLingo.Views.FinalTestFillInBlankTaskView.InitializeComponent(System.Boolean)">
+            <summary>
+            Wires up the controls and optionally loads XAML markup and attaches dev tools (if Avalonia.Diagnostics package is referenced).
+            </summary>
+            <param name="loadXaml">Should the XAML be loaded into the component.</param>
+        </member>
+        <member name="M:TatarLingo.Views.FinalTestImageChoiceTaskView.InitializeComponent(System.Boolean)">
+            <summary>
+            Wires up the controls and optionally loads XAML markup and attaches dev tools (if Avalonia.Diagnostics package is referenced).
+            </summary>
+            <param name="loadXaml">Should the XAML be loaded into the component.</param>
+        </member>
+        <member name="M:TatarLingo.Views.FinalTestMatchingTaskView.InitializeComponent(System.Boolean)">
+            <summary>
+            Wires up the controls and optionally loads XAML markup and attaches dev tools (if Avalonia.Diagnostics package is referenced).
+            </summary>
+            <param name="loadXaml">Should the XAML be loaded into the component.</param>
+        </member>
+        <member name="M:TatarLingo.Views.FinalTestView.InitializeComponent(System.Boolean)">
+            <summary>
+            Wires up the controls and optionally loads XAML markup and attaches dev tools (if Avalonia.Diagnostics package is referenced).
+            </summary>
+            <param name="loadXaml">Should the XAML be loaded into the component.</param>
+        </member>
+        <member name="M:TatarLingo.Views.ImageChoiceTaskView.InitializeComponent(System.Boolean)">
+            <summary>
+            Wires up the controls and optionally loads XAML markup and attaches dev tools (if Avalonia.Diagnostics package is referenced).
+            </summary>
+            <param name="loadXaml">Should the XAML be loaded into the component.</param>
+        </member>
+        <member name="M:TatarLingo.Views.LearningSwitchView.InitializeComponent(System.Boolean)">
+            <summary>
+            Wires up the controls and optionally loads XAML markup and attaches dev tools (if Avalonia.Diagnostics package is referenced).
+            </summary>
+            <param name="loadXaml">Should the XAML be loaded into the component.</param>
+        </member>
+        <member name="M:TatarLingo.Views.LectureView.InitializeComponent(System.Boolean)">
+            <summary>
+            Wires up the controls and optionally loads XAML markup and attaches dev tools (if Avalonia.Diagnostics package is referenced).
+            </summary>
+            <param name="loadXaml">Should the XAML be loaded into the component.</param>
+        </member>
+        <member name="M:TatarLingo.Views.LoginView.InitializeComponent(System.Boolean)">
+            <summary>
+            Wires up the controls and optionally loads XAML markup and attaches dev tools (if Avalonia.Diagnostics package is referenced).
+            </summary>
+            <param name="loadXaml">Should the XAML be loaded into the component.</param>
+        </member>
+        <member name="M:TatarLingo.Views.MatchingTaskView.InitializeComponent(System.Boolean)">
+            <summary>
+            Wires up the controls and optionally loads XAML markup and attaches dev tools (if Avalonia.Diagnostics package is referenced).
+            </summary>
+            <param name="loadXaml">Should the XAML be loaded into the component.</param>
+        </member>
+        <member name="M:TatarLingo.Views.RegisterView.InitializeComponent(System.Boolean)">
+            <summary>
+            Wires up the controls and optionally loads XAML markup and attaches dev tools (if Avalonia.Diagnostics package is referenced).
+            </summary>
+            <param name="loadXaml">Should the XAML be loaded into the component.</param>
+        </member>
+        <member name="M:TatarLingo.Views.SuccessDialog.InitializeComponent(System.Boolean,System.Boolean)">
+            <summary>
+            Wires up the controls and optionally loads XAML markup and attaches dev tools (if Avalonia.Diagnostics package is referenced).
+            </summary>
+            <param name="loadXaml">Should the XAML be loaded into the component.</param>
+            <param name="attachDevTools">Should the dev tools be attached.</param>
+        </member>
+        <member name="M:TatarLingo.Views.TestResultDialog.InitializeComponent(System.Boolean,System.Boolean)">
+            <summary>
+            Wires up the controls and optionally loads XAML markup and attaches dev tools (if Avalonia.Diagnostics package is referenced).
+            </summary>
+            <param name="loadXaml">Should the XAML be loaded into the component.</param>
+            <param name="attachDevTools">Should the dev tools be attached.</param>
+        </member>
+        <member name="M:TatarLingo.MainWindow.InitializeComponent(System.Boolean,System.Boolean)">
+            <summary>
+            Wires up the controls and optionally loads XAML markup and attaches dev tools (if Avalonia.Diagnostics package is referenced).
+            </summary>
+            <param name="loadXaml">Should the XAML be loaded into the component.</param>
+            <param name="attachDevTools">Should the dev tools be attached.</param>
+        </member>
+        <member name="T:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs">
+            <summary>
+            A helper type providing cached, reusable <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instances
+            for all properties generated with <see cref="T:CommunityToolkit.Mvvm.ComponentModel.ObservablePropertyAttribute"/>.
+            </summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ValidationState">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ValidationState" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.IsMatched">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "IsMatched" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.IsInvalidMatch">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "IsInvalidMatch" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.CanSelect">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "CanSelect" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ModuleTitle">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ModuleTitle" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.SentenceTemplate">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "SentenceTemplate" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.IsCompleted">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "IsCompleted" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ButtonText">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ButtonText" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.IsCorrect">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "IsCorrect" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.DoneTasks">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "DoneTasks" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.SelectedSourceWord">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "SelectedSourceWord" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.SelectedTargetWord">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "SelectedTargetWord" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.CorrectlyMatchedCount">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "CorrectlyMatchedCount" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.CurrentTaskViewModel">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "CurrentTaskViewModel" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.CurrentTaskNumber">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "CurrentTaskNumber" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.IsTestFinished">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "IsTestFinished" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.ResultSummary">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "ResultSummary" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.IsAnswered">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "IsAnswered" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.SelectedWord">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "SelectedWord" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.LectureContent">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "LectureContent" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Username">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Username" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Password">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Password" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.CurrentView">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "CurrentView" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Text">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Text" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.EmailBorderColor">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "EmailBorderColor" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.EmailBorderThickness">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "EmailBorderThickness" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.UsernameBorderColor">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "UsernameBorderColor" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.UsernameBorderThickness">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "UsernameBorderThickness" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Password1BorderColor">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Password1BorderColor" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Password1BorderThickness">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Password1BorderThickness" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Password2BorderColor">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Password2BorderColor" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Password2BorderThickness">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Password2BorderThickness" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Email">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Email" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Password1">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Password1" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangingArgs.Password2">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangingEventArgs"/> instance for all "Password2" generated properties.</summary>
+        </member>
+        <member name="T:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs">
+            <summary>
+            A helper type providing cached, reusable <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instances
+            for all properties generated with <see cref="T:CommunityToolkit.Mvvm.ComponentModel.ObservablePropertyAttribute"/>.
+            </summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ValidationState">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ValidationState" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.IsMatched">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "IsMatched" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.IsInvalidMatch">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "IsInvalidMatch" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.CanSelect">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "CanSelect" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ModuleTitle">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ModuleTitle" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.SentenceTemplate">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "SentenceTemplate" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.IsCompleted">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "IsCompleted" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ButtonText">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ButtonText" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.IsCorrect">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "IsCorrect" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.DoneTasks">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "DoneTasks" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.SelectedSourceWord">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "SelectedSourceWord" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.SelectedTargetWord">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "SelectedTargetWord" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.CorrectlyMatchedCount">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "CorrectlyMatchedCount" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.CurrentTaskViewModel">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "CurrentTaskViewModel" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.CurrentTaskNumber">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "CurrentTaskNumber" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.IsTestFinished">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "IsTestFinished" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.ResultSummary">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "ResultSummary" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.IsAnswered">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "IsAnswered" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.SelectedWord">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "SelectedWord" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.LectureContent">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "LectureContent" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Username">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Username" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Password">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Password" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.CurrentView">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "CurrentView" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Text">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Text" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.EmailBorderColor">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "EmailBorderColor" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.EmailBorderThickness">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "EmailBorderThickness" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.UsernameBorderColor">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "UsernameBorderColor" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.UsernameBorderThickness">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "UsernameBorderThickness" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Password1BorderColor">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Password1BorderColor" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Password1BorderThickness">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Password1BorderThickness" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Password2BorderColor">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Password2BorderColor" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Password2BorderThickness">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Password2BorderThickness" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Email">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Email" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Password1">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Password1" generated properties.</summary>
+        </member>
+        <member name="F:CommunityToolkit.Mvvm.ComponentModel.__Internals.__KnownINotifyPropertyChangedArgs.Password2">
+            <summary>The cached <see cref="T:System.ComponentModel.PropertyChangedEventArgs"/> instance for all "Password2" generated properties.</summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="TatarLingo/App.axaml" value="TatarLingo/TatarLingo.csproj" />
+        <entry key="TatarLingo/Views/FailDialog.axaml" value="TatarLingo/TatarLingo.csproj" />
+        <entry key="TatarLingo/Views/FailLoginDialog.axaml" value="TatarLingo/TatarLingo.csproj" />
+        <entry key="TatarLingo/Views/FillInBlankTaskView.axaml" value="TatarLingo/TatarLingo.csproj" />
+        <entry key="TatarLingo/Views/FinalTestFillInBlankTaskView.axaml" value="TatarLingo/TatarLingo.csproj" />
+        <entry key="TatarLingo/Views/FinalTestImageChoiceTaskView.axaml" value="TatarLingo/TatarLingo.csproj" />
+        <entry key="TatarLingo/Views/FinalTestMatchingTask.axaml" value="TatarLingo/TatarLingo.csproj" />
+        <entry key="TatarLingo/Views/FinalTestMatchingTaskView.axaml" value="TatarLingo/TatarLingo.csproj" />
+        <entry key="TatarLingo/Views/FinalTestView.axaml" value="TatarLingo/TatarLingo.csproj" />
+        <entry key="TatarLingo/Views/ImageChoiceTaskView.axaml" value="TatarLingo/TatarLingo.csproj" />
+        <entry key="TatarLingo/Views/LearningSwitchView.axaml" value="TatarLingo/TatarLingo.csproj" />
+        <entry key="TatarLingo/Views/LectureView.axaml" value="TatarLingo/TatarLingo.csproj" />
+        <entry key="TatarLingo/Views/LoginView.axaml" value="TatarLingo/TatarLingo.csproj" />
+        <entry key="TatarLingo/Views/MainWindow.axaml" value="TatarLingo/TatarLingo.csproj" />
+        <entry key="TatarLingo/Views/MatchingTaskView.axaml" value="TatarLingo/TatarLingo.csproj" />
+        <entry key="TatarLingo/Views/RegisterView.axaml" value="TatarLingo/TatarLingo.csproj" />
+        <entry key="TatarLingo/Views/SucessDialog.axaml" value="TatarLingo/TatarLingo.csproj" />
+        <entry key="TatarLingo/Views/TestResultDialog.axaml" value="TatarLingo/TatarLingo.csproj" />
+      </map>
+    </option>
+  </component>
+</project>

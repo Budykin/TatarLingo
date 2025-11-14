@@ -1,0 +1,40 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="TatarLingo.Views.FailLoginDialog"
+        Width="300" Height="100"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        Title="Неудача"
+        Padding="5">
+    <Window.Styles>
+        <Style Selector="Button">
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Background" Value="#E30016"/>
+            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="Button:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#E30016"/>
+            <Setter Property="Foreground" Value="LightGray"/>
+        </Style>
+    </Window.Styles>
+
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+        <StackPanel Orientation="Horizontal">
+            <Image
+                Source="avares://TatarLingo/Assets/gerb.png"
+                HorizontalAlignment="Center" Margin="0,0,0,-15"
+                Width="45" Height="45" Stretch="Uniform"
+                VerticalAlignment="Top"/>
+            <TextBlock Text="Неверный логин или пароль"
+                       TextAlignment="Center"
+                       VerticalAlignment="Bottom"
+                       FontWeight="Bold"
+                       FontSize="14"
+                       Margin="10"/>
+        </StackPanel>
+        <Button Margin="0,2" Content="Закрыть" Click="OnCloseClicked" HorizontalAlignment="Right"/>
+    </StackPanel>
+</Window>

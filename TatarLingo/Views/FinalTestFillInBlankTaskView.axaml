@@ -1,0 +1,201 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:TatarLingo.ViewModels"
+             x:Class="TatarLingo.Views.FinalTestFillInBlankTaskView"
+             x:DataType="vm:FinalTestFillInBlankTaskViewModel"
+             Background="#FCFCFC">
+
+    <UserControl.Styles>
+        <Style Selector="Button.Finish">
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="Background" Value="#009035"/>
+            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="Button.Finish:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#00A045"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style Selector="Button.Finish:disabled">
+            <Setter Property="Background" Value="#A0A0A0"/>
+        </Style>
+
+        <Style Selector="Button.Back">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+        <Style Selector="Button.Back:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="LightGray"/>
+        </Style>
+
+        <Style Selector="TextBlock.ModuleTitle">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,20,0,10"/>
+        </Style>
+        
+        <Style Selector="Button.OptionButton">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#DCDCDC"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="Button.OptionButton.matched">
+            <Setter Property="Background" Value="#F8D7DA"/>
+            <Setter Property="BorderBrush" Value="#00A045"/>
+            <Setter Property="BorderThickness" Value="2"/>
+        </Style>
+        
+        <Style Selector="Button.OptionButton.invalid">
+            <Setter Property="Background" Value="#F8D7DA"/>
+            <Setter Property="BorderBrush" Value="#00A045"/>
+            <Setter Property="BorderThickness" Value="2"/>
+        </Style>
+
+        <Style Selector="Button.OptionButton:disabled">
+            <Setter Property="Opacity" Value="0.6"/>
+        </Style>
+        
+        <Style Selector="Button.NumberButton">
+            <Setter Property="Width" Value="34"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="CornerRadius" Value="10"/> 
+            <Setter Property="Background" Value="#E0E0E0"/> 
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#D0D0D0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="2"/>
+        </Style>
+        
+        <Style Selector="Border.numbers">
+            <Setter Property="Width" Value="34"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="CornerRadius" Value="12"/> 
+            <Setter Property="Background" Value="#E0E0E0"/> 
+            <Setter Property="Margin" Value="5,2"/>
+        </Style>
+        
+        <Style Selector="Border.numbersPicked">
+            <Setter Property="Width" Value="34"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="CornerRadius" Value="12"/> 
+            <Setter Property="Background" Value="#E0E0E0"/> 
+            <Setter Property="Margin" Value="5,2"/>
+            <Setter Property="BorderBrush" Value="#B7B7B7"/>
+            <Setter Property="BorderThickness" Value="1.5"/>
+        </Style>
+        
+        <Style Selector="Border.numbersDone">
+            <Setter Property="Width" Value="34"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="CornerRadius" Value="12"/> 
+            <Setter Property="Background" Value="#B7B7B7"/> 
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Margin" Value="5,2"/>
+        </Style>
+        
+        <Style Selector="TextBlock.numbers">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+    </UserControl.Styles>
+
+    <DockPanel LastChildFill="True">
+        <Grid DockPanel.Dock="Top" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <Button Classes="Back" Command="{Binding NavigateBackCommand}" Width="40" Padding="10,5" VerticalAlignment="Center">
+                <Image Source="avares://TatarLingo/Assets/LearningSwitchIcons/ArrowBack.png" Width="20" Height="20"/>
+            </Button>
+            
+            <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                        Orientation="Horizontal" Margin="20,0,40,0">
+                <Border Classes="numbers" Classes.numbersDone="{Binding DoneTasks[0]}">
+                    <TextBlock Classes="numbers">1</TextBlock>
+                </Border>
+                <Border Classes="numbers" Classes.numbersDone="{Binding DoneTasks[1]}">
+                    <TextBlock Classes="numbers">2</TextBlock>
+                </Border>
+                <Border Classes="numbers" Classes.numbersDone="{Binding DoneTasks[2]}">
+                    <TextBlock Classes="numbers">3</TextBlock>
+                </Border>
+                <Border Classes="numbers" Classes.numbersDone="{Binding DoneTasks[3]}">
+                    <TextBlock Classes="numbers">4</TextBlock>
+                </Border>
+                <Border Classes="numbers" Classes.numbersDone="{Binding DoneTasks[4]}">
+                    <TextBlock Classes="numbers">5</TextBlock>
+                </Border>
+                <Border Classes="numbers" Classes.numbersDone="{Binding DoneTasks[5]}">
+                    <TextBlock Classes="numbers">6</TextBlock>
+                </Border>
+                <Border Classes="numbers" Classes.numbersDone="{Binding DoneTasks[6]}">
+                    <TextBlock Classes="numbers">7</TextBlock>
+                </Border>
+                <Border Classes="numbers" Classes.numbersDone="{Binding DoneTasks[7]}">
+                    <TextBlock Classes="numbers">8</TextBlock>
+                </Border>
+                <Border Classes="numbers" Classes.numbersDone="{Binding DoneTasks[8]}">
+                    <TextBlock Classes="numbers">9</TextBlock>
+                </Border>
+            </StackPanel>
+            
+            <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Left"
+                       Text="📋 Найдите правильное слово" FontWeight="Normal" FontSize="16"
+                       Margin="20,10"></TextBlock>
+        </Grid>
+
+        <Button Classes="Finish" Content="{Binding ButtonText}"
+                IsEnabled="{Binding IsCompleted}"
+                Command="{Binding FinishExerciseCommand}"
+                DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="0,0,20,10"/>
+
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20,0,20,10">
+            <TextBlock Text="{Binding SentenceTemplate}"
+                       FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center"
+                       TextWrapping="Wrap"
+                       Margin="0,20,0,20"/>
+
+            <ItemsControl ItemsSource="{Binding Options}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="2" Rows="3"
+                                     HorizontalAlignment="Center" VerticalAlignment="Center"
+                                     Width="450" Height="250"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Content="{Binding OptionText}"
+                                Command="{Binding SelectOptionCommand}"
+                                Classes="OptionButton"
+                                Classes.matched="{Binding IsMatched}"
+                                Classes.invalid="{Binding IsInvalidMatch}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </DockPanel>
+</UserControl>
